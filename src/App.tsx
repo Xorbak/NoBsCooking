@@ -1,10 +1,29 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useEffect, useState } from "react";
+
 import "./App.css";
 import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 
+import { NewSlider } from "./Components/newSlider";
+export interface Recipe {
+  recipes: { image: string; title: string }[];
+}
 function App() {
+  const [recipe, SetRecipe] = useState<Recipe>();
+  const fetchRecipe = async () => {
+    await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
+      .then((res) => res.json())
+      .then((result) => {
+        SetRecipe(result);
+        localStorage.setItem("randomRecipe", JSON.stringify(result));
+        console.log(result);
+      });
+  };
+  console.log(recipe);
+  useEffect(() => {
+    //@ts-ignore
+    SetRecipe(JSON.parse(localStorage.getItem("randomRecipe")));
+  }, []);
   return (
     <Grid
       sx={Styles.App}
@@ -16,86 +35,10 @@ function App() {
       xs={12}
     >
       <Grid>
-        <Button>Get Random recipe!</Button>
+        <Button onClick={fetchRecipe}>Get Random recipe!</Button>
       </Grid>
-      <Grid
-        container
-        justifyContent={"center"}
-        alignContent={"center"}
-        item
-        xs={10}
-      >
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "red" }}
-          xs={1}
-          item
-        >
-          3
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "blue" }}
-          xs={1}
-          item
-        >
-          4
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "green" }}
-          xs={1}
-          item
-        >
-          5
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "yellow" }}
-          xs={1}
-          item
-        >
-          6
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "orange" }}
-          xs={1}
-          item
-        >
-          7
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "purple" }}
-          xs={1}
-          item
-        >
-          8
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "pink" }}
-          xs={1}
-          item
-        >
-          9
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "tan" }}
-          xs={1}
-          item
-        >
-          10
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "grey" }}
-          xs={1}
-          item
-        >
-          11
-        </Grid>
-        <Grid
-          sx={{ width: "50px", height: "50px", backgroundColor: "red" }}
-          xs={1}
-          item
-        >
-          12
-        </Grid>
-      </Grid>
+
+      <NewSlider recipe={recipe} />
     </Grid>
   );
 }
