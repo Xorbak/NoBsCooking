@@ -4,26 +4,10 @@ import "./App.css";
 import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 
-import { NewSlider } from "./Components/newSlider";
-export interface Recipe {
-  recipes: { image: string; title: string }[];
-}
+import { NewSlider } from "./Components/RandomRecipe/newSlider";
+import { RandomRecipeCard } from "./Components/RandomRecipe/RandomRecipeCard";
+
 function App() {
-  const [recipe, SetRecipe] = useState<Recipe>();
-  const fetchRecipe = async () => {
-    await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
-      .then((res) => res.json())
-      .then((result) => {
-        SetRecipe(result);
-        localStorage.setItem("randomRecipe", JSON.stringify(result));
-        console.log(result);
-      });
-  };
-  console.log(recipe);
-  useEffect(() => {
-    //@ts-ignore
-    SetRecipe(JSON.parse(localStorage.getItem("randomRecipe")));
-  }, []);
   return (
     <Grid
       sx={Styles.App}
@@ -34,11 +18,7 @@ function App() {
       columns={10}
       xs={12}
     >
-      <Grid>
-        <Button onClick={fetchRecipe}>Get Random recipe!</Button>
-      </Grid>
-
-      <NewSlider recipe={recipe} />
+      <RandomRecipeCard />
     </Grid>
   );
 }
