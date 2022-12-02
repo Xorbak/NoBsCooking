@@ -22,11 +22,13 @@ export const SearchBar = ({
           method: "GET",
           params: {
             query: values.input,
-            apiKey: "751b372b3e384e0c83f569d60f12b42f",
+            apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
+            addRecipeInformation: true,
+            fillIngredients: true,
           },
-          url: `http://localhost:8000/search`,
+          url: `https://api.spoonacular.com/recipes/complexSearch`,
         };
-
+        setShowRecipe(4);
         axios
           .request(searchRes)
           .then((response) => {

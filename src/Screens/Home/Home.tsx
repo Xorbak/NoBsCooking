@@ -74,6 +74,7 @@ export const Home = ({
           calls{" "}
         </Typography>
       )}
+      {showRecipe == 4 && <Typography>Loading...</Typography>}
     </Grid>
   );
 };

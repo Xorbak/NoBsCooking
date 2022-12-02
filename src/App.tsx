@@ -60,11 +60,11 @@ function App() {
   const [activeRecipe, setActiveRecipe] = useState<number | undefined>();
   const [showRecipe, setShowRecipe] = useState<number>(0);
   const fetchRecipe = async () => {
-    await fetch(`http://localhost:8000/random`)
+    await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
       .then((res) => res.json())
       .then((result) => {
         SetRecipe(result);
-
+        setShowRecipe(1);
         localStorage.setItem("randomRecipe", JSON.stringify(result));
         console.log(result);
       })

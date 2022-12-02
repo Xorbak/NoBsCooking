@@ -39,7 +39,7 @@ export const SearchRecipe = ({
         {" "}
         <Button
           onClick={() => {
-            setShowRecipe(1);
+            setShowRecipe(4);
             fetchRecipe();
             setActiveStep(0);
           }}
