@@ -22,7 +22,9 @@ export const RecipeCard = ({
       sx={{ borderRadius: "5px" }}
       boxShadow={5}
       marginBottom={"20px"}
-      xs={4}
+      xs={11}
+      sm={8}
+      md={6}
     >
       <SwipeableViews
         index={activeStep}
@@ -47,7 +49,10 @@ export const RecipeCard = ({
               item
               sx={{ cursor: "pointer" }}
             >
-              <RecipeCardImage image={image} activeRecipe={activeRecipe} />
+              <RecipeCardImage
+                image={image}
+                activeRecipe={`/random/${activeRecipe}`}
+              />
               <RecipeCardInfo recipe={recipe} activeStep={activeStep} />
             </Grid>
           ))}

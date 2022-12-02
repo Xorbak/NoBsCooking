@@ -22,8 +22,6 @@ export const NewSlider = ({
   activeRecipe,
   setActiveRecipe,
 }: Props) => {
-  const theme = useTheme();
-
   const maxSteps = !recipe?.recipes ? 0 : recipe?.recipes.length;
   const handleNext = () => {
     activeStep == maxSteps - 1
@@ -48,10 +46,11 @@ export const NewSlider = ({
       alignContent={"center"}
       flexDirection="row"
       item
-      xs={9}
+      xs={12}
+      md={8}
     >
       <Grid alignSelf="center">
-        <Button sx={{ height: "100px" }} size="large" onClick={handleBack}>
+        <Button sx={styles.navigationButtons} size="large" onClick={handleBack}>
           <KeyboardArrowLeftIcon />
         </Button>
       </Grid>
@@ -63,10 +62,13 @@ export const NewSlider = ({
         activeRecipe={activeRecipe}
       />
       <Grid alignSelf={"center"}>
-        <Button size="large" sx={{ height: "100px" }} onClick={handleNext}>
+        <Button size="large" sx={styles.navigationButtons} onClick={handleNext}>
           <KeyboardArrowRightIcon />
         </Button>
       </Grid>
     </Grid>
   );
+};
+const styles = {
+  navigationButtons: { height: "100px", display: { xs: "none", sm: "block" } },
 };

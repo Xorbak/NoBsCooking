@@ -3,7 +3,7 @@ import { Recipe, ComplexSearchRecipe } from "../../App";
 import { RandomRecipeCard } from "../../Components/RandomRecipe/RandomRecipeCard";
 import { UserSearchRecipe } from "../../Components/SearchRecipe/UserSearchRecipe";
 import { SearchRecipe } from "../../Components/SearchRecipe/SearchRecipe";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 interface Props {
   fetchRecipe: () => Promise<void>;
   recipe: Recipe | undefined;
@@ -67,6 +67,12 @@ export const Home = ({
           searchRecipe={searchRecipe}
           SetSearchRecipe={SetSearchRecipe}
         />
+      )}
+      {showRecipe == 3 && (
+        <Typography color={"error"}>
+          Something went wrong try again later - Most likely ran out of API
+          calls{" "}
+        </Typography>
       )}
     </Grid>
   );

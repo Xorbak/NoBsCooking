@@ -3,12 +3,12 @@ import { NavLink } from "react-router-dom";
 
 interface Props {
   image: string;
-  activeRecipe: number | undefined;
+  activeRecipe: string | undefined;
 }
 
 export const RecipeCardImage = ({ image, activeRecipe }: Props) => {
   return (
-    <NavLink to={`/random/${activeRecipe}`}>
+    <NavLink to={`${activeRecipe}`}>
       <Grid
         xs={12}
         width={"100%"}

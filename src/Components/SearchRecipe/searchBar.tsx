@@ -17,19 +17,28 @@ export const SearchBar = ({
   return (
     <Formik
       initialValues={{ input: null }}
-      onSubmit={({ input }) => {
+      onSubmit={(values, { resetForm }) => {
         const searchRes = {
           method: "GET",
-          params: { query: input, apiKey: "751b372b3e384e0c83f569d60f12b42f" },
+          params: {
+            query: values.input,
+            apiKey: "751b372b3e384e0c83f569d60f12b42f",
+          },
           url: `http://localhost:8000/search`,
         };
 
-        axios.request(searchRes).then((response) => {
-          console.log(response.data);
-          localStorage.setItem("searchRecipe", JSON.stringify(response.data)); //@ts-ignore
-          SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
-          setShowRecipe(2);
-        });
+        axios
+          .request(searchRes)
+          .then((response) => {
+            console.log(response.data);
+            localStorage.setItem("searchRecipe", JSON.stringify(response.data)); //@ts-ignore
+            SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
+            setShowRecipe(2);
+          })
+          .catch(() => {
+            setShowRecipe(3);
+          });
+        resetForm();
       }}
     >
       {() => (

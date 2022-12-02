@@ -6,6 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import ReactDOM from "react-dom";
 import { NavLink } from "react-router-dom";
+import { AdditionalInformation } from "./components/additionalInformation";
 interface Props {
   recipe?: Recipe | undefined;
   activeStep: number;
@@ -42,282 +43,311 @@ export const FullRecipe = ({
     return doc.body;
   };
   return (
-    <Grid container boxShadow={5} xs={10} sx={Styles.App}>
+    <Grid
+      container
+      boxShadow={5}
+      xs={10}
+      sx={Styles.App}
+      justifyContent="center"
+    >
       {recipe &&
-        recipe.recipes.map((i) => {
-          const recipeSummary = stringTOHtml(i.summary).outerHTML;
-          return i.id == activeRecipe ? (
-            <React.Fragment>
-              <Grid
-                container
-                flexDirection={"column"}
-                alignContent={"start"}
-                textAlign={"start"}
-                xs={10}
-              >
-                <Typography
-                  onClick={() => {
-                    setShowRecipe(1);
-                  }}
-                  variant="caption"
+        recipe.recipes.map(
+          ({
+            id,
+            summary,
+            vegan,
+            vegitarian,
+            glutenFree,
+            title,
+            readyInMinutes,
+            image,
+            extendedIngredients,
+            analyzedInstructions,
+          }) => {
+            const recipeSummary = stringTOHtml(summary).outerHTML;
+            return id == activeRecipe ? (
+              <React.Fragment>
+                <Grid
+                  container
+                  flexDirection={"column"}
+                  alignContent={{ xs: "center", md: "start" }}
+                  textAlign={{ xs: "center", md: "start" }}
+                  xs={12}
+                  md={10}
                 >
-                  <NavLink to={"/"}>Back</NavLink>{" "}
-                </Typography>
-                <Typography variant="h3">{i.title}</Typography>
-                <Typography>Ready in:{i.readyInMinutes} Min</Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Vegan :
-                  {i.vegan ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Vegitarian :
-                  {i.vegitarian ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Gluten free:
-                  {i.glutenFree ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Grid container item xs={12}>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
+                  <Typography
+                    onClick={() => {
+                      setShowRecipe(1);
                     }}
-                    component="img"
-                    src={i.image}
-                  ></Grid>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    gap={"10px"}
-                    overflow={"hidden"}
+                    variant="caption"
+                  >
+                    <NavLink to={"/"}>Back</NavLink>{" "}
+                  </Typography>
+                  <Typography
+                    variant="h6"
                     sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
+                      textDecoration: "underline",
+                      display: { xs: "block", md: "none" },
                     }}
                   >
-                    <Typography
-                      sx={{ padding: "20px" }}
-                      variant="subtitle2"
-                      dangerouslySetInnerHTML={{ __html: recipeSummary }}
-                    ></Typography>
-                  </Grid>
-                </Grid>{" "}
-                <Grid container item xs={12}>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
-                    }}
-                  >
-                    <Typography variant="h6">Ingredients</Typography>
-                    {i.extendedIngredients.map((i) => {
-                      return (
-                        <Typography variant="subtitle2">
-                          {i.original}
-                        </Typography>
-                      );
-                    })}
-                  </Grid>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    gap={"10px"}
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
-                    }}
-                  >
-                    <Typography sx={{ paddingLeft: "20px" }} variant="h6">
-                      Instructions
-                    </Typography>
-                    {i.analyzedInstructions[0].steps.map(({ step, number }) => {
-                      return (
-                        <Grid container item flexDirection={"row"}>
-                          <Grid item xs={1}>
-                            <Typography>{number}.</Typography>
+                    {title}
+                  </Typography>
+                  <AdditionalInformation
+                    readyInMinutes={readyInMinutes}
+                    vegan={vegan}
+                    vegitarian={vegitarian}
+                    glutenFree={glutenFree}
+                  />
+                  <Grid container item xs={12}>
+                    <Grid
+                      xs={12}
+                      md={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      item
+                      overflow={"hidden"}
+                      sx={{
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                      component="img"
+                      src={image}
+                    ></Grid>
+                    <Grid
+                      xs={12}
+                      md={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      item
+                      gap={"10px"}
+                      overflow={"hidden"}
+                      sx={{
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography
+                        sx={{ padding: "20px" }}
+                        variant="subtitle2"
+                        dangerouslySetInnerHTML={{ __html: recipeSummary }}
+                      ></Typography>
+                    </Grid>
+                  </Grid>{" "}
+                  <Grid container item xs={12}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      textAlign="start"
+                      item
+                      overflow={"hidden"}
+                      sx={{
+                        padding: { xs: "10px" },
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography variant="h6">Ingredients</Typography>
+                      {extendedIngredients.map((i) => {
+                        return (
+                          <Typography variant="subtitle2">
+                            {i.original}
+                          </Typography>
+                        );
+                      })}
+                    </Grid>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      textAlign="start"
+                      item
+                      gap={"10px"}
+                      overflow={"hidden"}
+                      sx={{
+                        padding: { xs: "10px" },
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography sx={{ paddingLeft: "20px" }} variant="h6">
+                        Instructions
+                      </Typography>
+                      {analyzedInstructions[0].steps.map(({ step, number }) => {
+                        return (
+                          <Grid container item flexDirection={"row"}>
+                            <Grid item xs={1}>
+                              <Typography>{number}.</Typography>
+                            </Grid>
+                            <Grid item xs={11}>
+                              <Typography>{step}</Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={11}>
-                            <Typography>{step}</Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
+                        );
+                      })}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </React.Fragment>
-          ) : null;
-        })}
+              </React.Fragment>
+            ) : null;
+          }
+        )}
 
       {searchRecipe &&
-        searchRecipe.results.map((i) => {
-          const recipeSummary = stringTOHtml(i.summary).outerHTML;
-          return i.id == activeRecipe ? (
-            <React.Fragment>
-              <Grid
-                container
-                flexDirection={"column"}
-                alignContent={"start"}
-                textAlign={"start"}
-                xs={10}
-              >
-                <Typography
-                  onClick={() => {
-                    setShowRecipe(2);
-                  }}
-                  variant="caption"
+        searchRecipe.results.map(
+          ({
+            id,
+            summary,
+            vegan,
+            vegitarian,
+            glutenFree,
+            title,
+            readyInMinutes,
+            image,
+            extendedIngredients,
+            analyzedInstructions,
+          }) => {
+            const recipeSummary = stringTOHtml(summary).outerHTML;
+            return id == activeRecipe ? (
+              <React.Fragment>
+                <Grid
+                  container
+                  flexDirection={"column"}
+                  alignContent={{ xs: "center", md: "start" }}
+                  textAlign={{ xs: "center", md: "start" }}
+                  xs={12}
+                  md={10}
                 >
-                  <NavLink to={"/"}>Back</NavLink>{" "}
-                </Typography>
-                <Typography variant="h3">{i.title}</Typography>
-                <Typography>Ready in:{i.readyInMinutes} Min</Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Vegan :
-                  {i.vegan ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Vegitarian :
-                  {i.vegitarian ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Typography sx={{ display: "flex" }} variant="subtitle2">
-                  Gluten free:
-                  {i.glutenFree ? (
-                    <CheckIcon color="success" fontSize="small" />
-                  ) : (
-                    <ClearIcon color="error" fontSize="small" />
-                  )}
-                </Typography>
-                <Grid container item xs={12}>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
+                  <Typography
+                    onClick={() => {
+                      setShowRecipe(2);
                     }}
-                    component="img"
-                    src={i.image}
-                  ></Grid>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    gap={"10px"}
-                    overflow={"hidden"}
+                    variant="caption"
+                  >
+                    <NavLink to={"/"}>Back</NavLink>{" "}
+                  </Typography>
+                  <Typography
+                    variant="h6"
                     sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
+                      textDecoration: "underline",
+                      display: { xs: "block", md: "none" },
                     }}
                   >
-                    <Typography
-                      sx={{ padding: "20px" }}
-                      variant="subtitle2"
-                      dangerouslySetInnerHTML={{ __html: recipeSummary }}
-                    ></Typography>
-                  </Grid>
-                </Grid>{" "}
-                <Grid container item xs={12}>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
-                    }}
-                  >
-                    <Typography variant="h6">Ingredients</Typography>
-                    {i.extendedIngredients.map((i) => {
-                      return (
-                        <Typography variant="subtitle2">
-                          {i.original}
-                        </Typography>
-                      );
-                    })}
-                  </Grid>
-                  <Grid
-                    xs={6}
-                    alignContent={"start"}
-                    justifyContent={"start"}
-                    alignSelf={"start"}
-                    item
-                    gap={"10px"}
-                    overflow={"hidden"}
-                    sx={{
-                      borderTopRightRadius: "5px",
-                      borderTopLeftRadius: "5px",
-                    }}
-                  >
-                    <Typography sx={{ paddingLeft: "20px" }} variant="h6">
-                      Instructions
-                    </Typography>
-                    {i.analyzedInstructions[0].steps.map(({ step, number }) => {
-                      return (
-                        <Grid container item flexDirection={"row"}>
-                          <Grid item xs={1}>
-                            <Typography>{number}.</Typography>
+                    {title}
+                  </Typography>
+                  <AdditionalInformation
+                    readyInMinutes={readyInMinutes}
+                    vegan={vegan}
+                    vegitarian={vegitarian}
+                    glutenFree={glutenFree}
+                  />
+                  <Grid container item xs={12}>
+                    <Grid
+                      xs={12}
+                      md={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      item
+                      width={"100%"}
+                      overflow={"hidden"}
+                      sx={{
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                      component="img"
+                      src={image}
+                    ></Grid>
+                    <Grid
+                      xs={12}
+                      md={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      item
+                      gap={"10px"}
+                      overflow={"hidden"}
+                      sx={{
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography
+                        sx={{ padding: "20px" }}
+                        variant="subtitle2"
+                        dangerouslySetInnerHTML={{ __html: recipeSummary }}
+                      ></Typography>
+                    </Grid>
+                  </Grid>{" "}
+                  <Grid container item xs={12}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      textAlign="start"
+                      item
+                      overflow={"hidden"}
+                      sx={{
+                        padding: { xs: "10px" },
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography variant="h6">Ingredients</Typography>
+                      {extendedIngredients.map((i) => {
+                        return (
+                          <Typography variant="subtitle2">
+                            {i.original}
+                          </Typography>
+                        );
+                      })}
+                    </Grid>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      alignContent={"start"}
+                      justifyContent={"start"}
+                      alignSelf={"start"}
+                      textAlign="start"
+                      item
+                      gap={"10px"}
+                      overflow={"hidden"}
+                      sx={{
+                        padding: { xs: "10px" },
+                        borderTopRightRadius: "5px",
+                        borderTopLeftRadius: "5px",
+                      }}
+                    >
+                      <Typography sx={{ paddingLeft: "20px" }} variant="h6">
+                        Instructions
+                      </Typography>
+                      {analyzedInstructions[0].steps.map(({ step, number }) => {
+                        return (
+                          <Grid container item flexDirection={"row"}>
+                            <Grid item xs={1}>
+                              <Typography>{number}.</Typography>
+                            </Grid>
+                            <Grid item xs={11}>
+                              <Typography>{step}</Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={11}>
-                            <Typography>{step}</Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
+                        );
+                      })}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </React.Fragment>
-          ) : null;
-        })}
+              </React.Fragment>
+            ) : null;
+          }
+        )}
     </Grid>
   );
 };

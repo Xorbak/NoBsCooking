@@ -67,6 +67,9 @@ function App() {
 
         localStorage.setItem("randomRecipe", JSON.stringify(result));
         console.log(result);
+      })
+      .catch(() => {
+        setShowRecipe(3);
       });
   };
   useEffect(() => {
