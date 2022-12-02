@@ -64,12 +64,11 @@ function App() {
       .then((res) => res.json())
       .then((result) => {
         SetRecipe(result);
-        setShowRecipe(1);
         localStorage.setItem("randomRecipe", JSON.stringify(result));
         console.log(result);
       })
-      .catch(() => {
-        setShowRecipe(3);
+      .then(() => {
+        setShowRecipe(1);
       });
   };
   useEffect(() => {
