@@ -58,7 +58,7 @@ function App() {
   const [recipe, SetRecipe] = useState<Recipe>();
   const [searchRecipe, SetSearchRecipe] = useState<ComplexSearchRecipe>();
   const [activeRecipe, setActiveRecipe] = useState<number | undefined>();
-  const [showRecipe, setShowRecipe] = useState<number>(0);
+  const [showRecipe, setShowRecipe] = useState<number>(5);
   const fetchRecipe = async () => {
     await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
       .then((res) => res.json())

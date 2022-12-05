@@ -32,21 +32,10 @@ export const SearchRecipe = ({
           setShowRecipe={setShowRecipe}
           SetSearchRecipe={SetSearchRecipe}
           SetRecipe={SetRecipe}
+          setActiveStep={setActiveStep}
+          fetchRecipe={fetchRecipe}
         />
       </React.Fragment>
-
-      <Grid>
-        {" "}
-        <Button
-          onClick={() => {
-            setShowRecipe(4);
-            fetchRecipe();
-            setActiveStep(0);
-          }}
-        >
-          {showRecipe == 1 ? "Something else..." : "Surprise me"}
-        </Button>
-      </Grid>
     </Grid>
   );
 };
