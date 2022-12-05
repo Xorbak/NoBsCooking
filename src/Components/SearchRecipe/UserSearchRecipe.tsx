@@ -50,6 +50,7 @@ export const UserSearchRecipe = ({
           }) => (
             <Grid //content card
               sx={{ borderRadius: "5px" }}
+              key={id}
               boxShadow={5}
               ml={"5px"}
               marginBottom={"20px"}

@@ -16,7 +16,7 @@ export const SearchBar = ({
 }: Props) => {
   return (
     <Formik
-      initialValues={{ input: null }}
+      initialValues={{ input: "" }}
       onSubmit={(values, { resetForm }) => {
         const searchRes = {
           method: "GET",
