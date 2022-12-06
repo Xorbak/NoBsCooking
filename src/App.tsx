@@ -30,6 +30,7 @@ export interface Recipe {
   }[];
 }
 export interface ComplexSearchRecipe {
+  totalResults: number;
   results: {
     id: number;
     image: string;

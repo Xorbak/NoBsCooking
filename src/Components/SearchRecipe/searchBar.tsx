@@ -42,6 +42,7 @@ export const SearchBar = ({
             apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
             addRecipeInformation: true,
             fillIngredients: true,
+            offset: 0,
             cuisine: values.cuisine,
             diet: values.diet,
           },
@@ -53,6 +54,17 @@ export const SearchBar = ({
           .request(searchRes)
           .then((response) => {
             console.log(response.data);
+            localStorage.setItem(
+              "searchParams",
+              JSON.stringify({
+                query: values.input,
+                addRecipeInformation: true,
+                fillIngredients: true,
+                offset: 0,
+                cuisine: values.cuisine,
+                diet: values.diet,
+              })
+            );
             localStorage.setItem("searchRecipe", JSON.stringify(response.data)); //@ts-ignore
             SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
             setShowRecipe(2);

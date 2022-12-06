@@ -65,6 +65,7 @@ export const Home = ({
           setActiveRecipe={setActiveRecipe}
           activeRecipe={activeRecipe}
           searchRecipe={searchRecipe}
+          setShowRecipe={setShowRecipe}
           SetSearchRecipe={SetSearchRecipe}
         />
       )}
