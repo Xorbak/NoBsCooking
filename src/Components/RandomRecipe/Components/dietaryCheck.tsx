@@ -10,7 +10,7 @@ interface Props {
 
 export const DietaryCheck = ({ label, details }: Props) => {
   return (
-    <Grid container xs={12}>
+    <Grid container item xs={12}>
       <Typography sx={{ display: "flex" }} variant="subtitle2">
         {label}
         {details ? (

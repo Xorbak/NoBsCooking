@@ -77,6 +77,7 @@ export const FullRecipe = ({
                   <Grid
                     key={id}
                     container
+                    item
                     flexDirection={"column"}
                     alignContent={{ xs: "center", md: "start" }}
                     textAlign={{ xs: "center", md: "start" }}

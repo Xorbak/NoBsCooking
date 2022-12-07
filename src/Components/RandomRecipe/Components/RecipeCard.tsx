@@ -21,6 +21,7 @@ export const RecipeCard = ({
     <Grid //content card
       sx={{ borderRadius: "5px" }}
       boxShadow={5}
+      item
       marginBottom={"20px"}
       xs={11}
       sm={8}

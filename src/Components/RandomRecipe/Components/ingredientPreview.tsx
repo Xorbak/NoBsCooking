@@ -12,7 +12,7 @@ export const IngredientPreview = ({ recipe, activeStep }: Props) => {
       {recipe &&
         recipe.recipes[activeStep].extendedIngredients.map((i) => {
           return (
-            <Grid xs={6} container>
+            <Grid xs={6} item key={i.name} container>
               <ListItem
                 sx={{
                   display: "list-item",

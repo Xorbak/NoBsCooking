@@ -37,7 +37,7 @@ export const RecipeCardInfo = ({ recipe, activeStep }: Props) => {
         marginBottom={"10px"}
       >
         {" "}
-        <Grid container xs={12}>
+        <Grid container item xs={12}>
           <Typography variant="subtitle2">Ingredients :</Typography>
         </Grid>
         <IngredientPreview recipe={recipe} activeStep={activeStep} />
