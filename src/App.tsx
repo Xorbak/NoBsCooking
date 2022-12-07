@@ -46,7 +46,7 @@ export interface ComplexSearchRecipe {
     readyInMinutes: string;
     servings: number;
     diets: string[];
-    analyzedInstructions: { steps: { number: number; step: string }[] }[];
+    analyzedInstructions?: { steps: { number: number; step: string }[] }[];
     extendedIngredients: {
       original: string;
       originalName: string;
@@ -85,6 +85,7 @@ function App() {
       alignContent={"center"}
       flexDirection={"column"}
       container
+      item
       columns={10}
       xs={12}
     >

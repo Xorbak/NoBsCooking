@@ -53,7 +53,11 @@ export const CuisineDropDown = ({ field, form, ...props }) => {
           {...props}
         >
           {cuisineArr.map((i) => {
-            return <MenuItem value={i}>{i}</MenuItem>;
+            return (
+              <MenuItem key={i} value={i}>
+                {i}
+              </MenuItem>
+            );
           })}
         </Select>
       </FormControl>

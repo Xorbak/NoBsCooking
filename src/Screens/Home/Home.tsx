@@ -36,6 +36,7 @@ export const Home = ({
   return (
     <Grid
       container
+      item
       justifyContent={"center"}
       alignContent="center"
       flexDirection={"column"}

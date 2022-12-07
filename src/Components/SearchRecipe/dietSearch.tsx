@@ -34,7 +34,11 @@ export const DietDropDown = ({ field, form, ...props }) => {
           {...props}
         >
           {dietArr.map((i) => {
-            return <MenuItem value={i}>{i}</MenuItem>;
+            return (
+              <MenuItem key={i} value={i}>
+                {i}
+              </MenuItem>
+            );
           })}
         </Select>
       </FormControl>

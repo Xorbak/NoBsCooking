@@ -68,6 +68,7 @@ export const FullRecipe = ({
             return id == activeRecipe ? (
               <React.Fragment>
                 <Grid
+                  key={id}
                   container
                   flexDirection={"column"}
                   alignContent={{ xs: "center", md: "start" }}
@@ -154,7 +155,7 @@ export const FullRecipe = ({
                       <Typography variant="h6">Ingredients</Typography>
                       {extendedIngredients.map((i) => {
                         return (
-                          <Typography variant="subtitle2">
+                          <Typography key={i.name} variant="subtitle2">
                             {i.original}
                           </Typography>
                         );
@@ -181,7 +182,12 @@ export const FullRecipe = ({
                       </Typography>
                       {analyzedInstructions[0].steps.map(({ step, number }) => {
                         return (
-                          <Grid container item flexDirection={"row"}>
+                          <Grid
+                            key={number}
+                            container
+                            item
+                            flexDirection={"row"}
+                          >
                             <Grid item xs={1}>
                               <Typography>{number}.</Typography>
                             </Grid>
@@ -217,6 +223,7 @@ export const FullRecipe = ({
             return id == activeRecipe ? (
               <React.Fragment>
                 <Grid
+                  key={id}
                   container
                   flexDirection={"column"}
                   alignContent={{ xs: "center", md: "start" }}
@@ -304,7 +311,7 @@ export const FullRecipe = ({
                       <Typography variant="h6">Ingredients</Typography>
                       {extendedIngredients.map((i) => {
                         return (
-                          <Typography variant="subtitle2">
+                          <Typography key={i.name} variant="subtitle2">
                             {i.original}
                           </Typography>
                         );
@@ -329,18 +336,31 @@ export const FullRecipe = ({
                       <Typography sx={{ paddingLeft: "20px" }} variant="h6">
                         Instructions
                       </Typography>
-                      {analyzedInstructions[0].steps.map(({ step, number }) => {
-                        return (
-                          <Grid container item flexDirection={"row"}>
-                            <Grid item xs={1}>
-                              <Typography>{number}.</Typography>
-                            </Grid>
-                            <Grid item xs={11}>
-                              <Typography>{step}</Typography>
-                            </Grid>
-                          </Grid>
-                        );
-                      })}
+                      {analyzedInstructions &&
+                      analyzedInstructions.length == 0 ? (
+                        <Typography>Instructions not found</Typography>
+                      ) : (
+                        analyzedInstructions &&
+                        analyzedInstructions[0].steps.map(
+                          ({ step, number }) => {
+                            return (
+                              <Grid
+                                key={number}
+                                container
+                                item
+                                flexDirection={"row"}
+                              >
+                                <Grid item xs={1}>
+                                  <Typography>{number}.</Typography>
+                                </Grid>
+                                <Grid item xs={11}>
+                                  <Typography>{step}</Typography>
+                                </Grid>
+                              </Grid>
+                            );
+                          }
+                        )
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>

@@ -40,8 +40,7 @@ export const UserSearchRecipe = ({
   }, []);
   //functions for the mobile stepper
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps =
-    searchRecipe == undefined ? 0 : searchRecipe.totalResults / 10;
+  const maxSteps = searchRecipe == undefined ? 0 : searchRecipe.totalResults;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -62,6 +61,7 @@ export const UserSearchRecipe = ({
       addRecipeInformation: searchParams && searchParams.addRecipeInformation,
       fillIngredients: searchParams && searchParams.fillIngredients,
       offset: (activeStep + 1) * 10,
+      number: 12,
       cuisine: searchParams && searchParams.cuisine,
       diet: searchParams && searchParams.diet,
     },
@@ -86,14 +86,15 @@ export const UserSearchRecipe = ({
         searchRecipe.results.map((i) => (
           <Zoom
             in={true}
+            key={i.id}
             style={{
               transitionDelay:
                 (searchRecipe.results.indexOf(i) + 1) * 100 + "ms",
             }}
           >
             <Grid //content card
+              item
               sx={{ borderRadius: "5px" }}
-              key={i.id}
               boxShadow={5}
               ml={"5px"}
               marginBottom={"20px"}
@@ -155,31 +156,33 @@ export const UserSearchRecipe = ({
                     marginBottom={"10px"}
                   >
                     {" "}
-                    <Grid container xs={12}>
+                    <Grid container item xs={12}>
                       <Typography variant="subtitle2">
                         Ready in :{i.readyInMinutes} Min
                       </Typography>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container item xs={12}>
                       <Typography variant="subtitle2">
                         Servings : {i.servings}
                       </Typography>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container item xs={12}>
                       <Typography variant="subtitle2">
-                        Diets :{" "}
+                        Diets :
                         {i.diets.map((i) => {
-                          return i.indexOf(i) !== i.length - 1
-                            ? `${
-                                i.charAt(0).toLocaleUpperCase() + i.slice(1)
-                              }, `
-                            : `${
-                                i.charAt(0).toLocaleUpperCase() + i.slice(1)
-                              } `;
+                          return i.indexOf(i) !== i.length - 1 ? (
+                            <Typography key={i}>
+                              {i.charAt(0).toLocaleUpperCase() + i.slice(1)},
+                            </Typography>
+                          ) : (
+                            <Typography key={i}>
+                              {i.charAt(0).toLocaleUpperCase() + i.slice(1)}
+                            </Typography>
+                          );
                         })}
                       </Typography>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container item xs={12}>
                       <Typography variant="subtitle2">
                         Weigh Loss points : {`${i.weightWatcherSmartPoints}`}{" "}
                         <Typography
