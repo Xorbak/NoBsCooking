@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { FullRecipe } from "./Components/FullRecipe/FullRecipe";
 import { Home } from "./Screens/Home/Home";
 export interface Recipe {
+  code?: number;
   recipes: {
     id: number;
     image: string;
@@ -64,12 +65,14 @@ function App() {
     await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
       .then((res) => res.json())
       .then((result) => {
-        SetRecipe(result);
         localStorage.setItem("randomRecipe", JSON.stringify(result));
         console.log(result);
       })
       .then(() => {
         setShowRecipe(1);
+      })
+      .catch((e) => {
+        setShowRecipe(3);
       });
   };
   useEffect(() => {
@@ -145,7 +148,7 @@ export const Styles = {
     textAlign: "center",
     backgroundColor: "background.default",
     width: { xs: "100%" },
-
+    scrollBehavior: "smooth",
     alignItems: "center",
     justifyContent: { sm: "center", md: "center" },
     fontSize: "calc(10px + 2vmin)",

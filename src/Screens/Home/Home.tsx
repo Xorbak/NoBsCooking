@@ -4,6 +4,7 @@ import { RandomRecipeCard } from "../../Components/RandomRecipe/RandomRecipeCard
 import { UserSearchRecipe } from "../../Components/SearchRecipe/UserSearchRecipe";
 import { SearchRecipe } from "../../Components/SearchRecipe/SearchRecipe";
 import { Grid, Typography } from "@mui/material";
+import { RecipeCardImage } from "../../Components/RandomRecipe/Components/RecipeCardImage";
 interface Props {
   fetchRecipe: () => Promise<void>;
   recipe: Recipe | undefined;
@@ -61,6 +62,7 @@ export const Home = ({
           activeRecipe={activeRecipe}
         />
       )}
+
       {showRecipe == 2 && (
         <UserSearchRecipe
           setActiveRecipe={setActiveRecipe}

@@ -21,7 +21,8 @@ interface SearchParams {
   query: string;
   addRecipeInformation: boolean;
   fillIngredients: boolean;
-
+  includeIngredients: string;
+  excludeIngredients: string;
   cuisine: string;
   diet: string;
 }
@@ -60,10 +61,12 @@ export const UserSearchRecipe = ({
       apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
       addRecipeInformation: searchParams && searchParams.addRecipeInformation,
       fillIngredients: searchParams && searchParams.fillIngredients,
-      offset: (activeStep + 1) * 10,
+      offset: (activeStep + 1) * 12,
       number: 12,
       cuisine: searchParams && searchParams.cuisine,
       diet: searchParams && searchParams.diet,
+      includeIngredients: searchParams && searchParams.includeIngredients,
+      excludeIngredients: searchParams && searchParams.excludeIngredients,
     },
     url: `https://api.spoonacular.com/recipes/complexSearch`,
   };

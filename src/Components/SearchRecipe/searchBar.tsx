@@ -1,6 +1,7 @@
 import {
   Button,
   Collapse,
+  Divider,
   Grid,
   IconButton,
   InputAdornment,
@@ -14,6 +15,7 @@ import { CuisineDropDown } from "./cuisineDropDown";
 import { DietDropDown } from "./dietSearch";
 import { Myinput } from "./myInput";
 import SearchIcon from "@mui/icons-material/Search";
+import { validateHeaderName } from "http";
 interface Props {
   SetRecipe: React.Dispatch<React.SetStateAction<Recipe | undefined>>;
   SetSearchRecipe: React.Dispatch<
@@ -23,6 +25,14 @@ interface Props {
   fetchRecipe: () => Promise<void>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
+interface AdvancedSearch {
+  advanced: boolean;
+  nutrition: boolean;
+}
+interface NutritionalSearch {
+  label: string;
+  value: string;
+}
 export const SearchBar = ({
   SetRecipe,
   fetchRecipe,
@@ -30,7 +40,22 @@ export const SearchBar = ({
   setActiveStep,
   setShowRecipe,
 }: Props) => {
-  const [advancedSearch, SetAdvancedSearch] = useState<boolean>(false);
+  const [advancedSearch, SetAdvancedSearch] = useState<AdvancedSearch>({
+    advanced: false,
+    nutrition: false,
+  });
+  const nutritionalSearch: NutritionalSearch[] = [
+    { label: "Max Calories", value: "maxCalories" },
+    { label: "Min Calories", value: "minCalories" },
+    { label: "Max Carbs", value: "maxCarbs" },
+    { label: "Min Carbs", value: "minCarbs" },
+    { label: "Max Protein", value: "maxProtein" },
+    { label: "Min Protein", value: "minProtein" },
+    { label: "Max Fat", value: "maxFat" },
+    { label: "Min Fat", value: "minFat" },
+    { label: "Max Fiber", value: "maxFiber" },
+    { label: "Min Fiber", value: "minFiber" },
+  ];
   return (
     <Formik
       initialValues={{
@@ -39,6 +64,16 @@ export const SearchBar = ({
         diet: "",
         excludeIngredient: "",
         includeIngredient: "",
+        minCarbs: null,
+        maxCarbs: null,
+        minProtein: null,
+        maxProtein: null,
+        minCalories: null,
+        maxCalories: null,
+        minFat: null,
+        maxFat: null,
+        minFiber: null,
+        maxFiber: null,
       }}
       onSubmit={(values, { resetForm }) => {
         const searchRes = {
@@ -54,6 +89,17 @@ export const SearchBar = ({
             diet: values.diet,
             includeIngredients: values.includeIngredient,
             excludeIngredients: values.excludeIngredient,
+            minCarbs: values.minCarbs,
+            maxCarbs: values.maxCarbs,
+            minProtein: values.minProtein,
+            maxProtein: values.maxProtein,
+            minCalories: values.minCalories,
+            maxCalories: values.maxCalories,
+            minFat: values.minFat,
+            maxFat: values.maxFat,
+
+            minFiber: values.minFiber,
+            maxFiber: values.maxFiber,
           },
           url: `https://api.spoonacular.com/recipes/complexSearch`,
         };
@@ -64,6 +110,7 @@ export const SearchBar = ({
           .then((response) => {
             console.log(response.data);
             localStorage.setItem(
+              //Save response in local storage to use when moving to the next page
               "searchParams",
               JSON.stringify({
                 query: values.input,
@@ -72,13 +119,26 @@ export const SearchBar = ({
                 offset: 0,
                 cuisine: values.cuisine,
                 diet: values.diet,
+                includeIngredients: values.includeIngredient,
+                excludeIngredients: values.excludeIngredient,
+                minCarbs: values.minCarbs,
+                maxCarbs: values.maxCarbs,
+                minProtein: values.minProtein,
+                maxProtein: values.maxProtein,
+                minCalories: values.minCalories,
+                maxCalories: values.maxCalories,
+                minFat: values.minFat,
+                maxFat: values.maxFat,
+                minFiber: values.minFiber,
+                maxFiber: values.maxFiber,
               })
             );
             localStorage.setItem("searchRecipe", JSON.stringify(response.data)); //@ts-ignore
             SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
             setShowRecipe(2);
           })
-          .catch(() => {
+          .catch((e) => {
+            console.log(e);
             setShowRecipe(3);
           });
         resetForm();
@@ -102,7 +162,10 @@ export const SearchBar = ({
                     <IconButton
                       type="submit"
                       onClick={() => {
-                        SetAdvancedSearch(false);
+                        SetAdvancedSearch({
+                          advanced: false,
+                          nutrition: false,
+                        });
                       }}
                     >
                       <SearchIcon />
@@ -111,22 +174,60 @@ export const SearchBar = ({
                 ),
               }}
             ></Field>
-            <Typography
-              sx={{
-                width: "fit-content",
-                color: "primary.main",
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-              variant="caption"
+            <Button
+              size="small"
+              sx={{ mt: "10px" }}
               onClick={() => {
-                SetAdvancedSearch(!advancedSearch);
+                setShowRecipe(4);
+                fetchRecipe();
+                setActiveStep(0);
               }}
             >
-              Advanced
-            </Typography>
-            <Collapse in={advancedSearch}>
+              Something Random
+            </Button>
+            <Grid flexDirection={"row"}>
+              {" "}
+              <Typography
+                sx={{
+                  width: "fit-content",
+                  color: "primary.main",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                variant="caption"
+                onClick={() => {
+                  SetAdvancedSearch({
+                    advanced: !advancedSearch.advanced,
+                    nutrition: false,
+                  });
+                }}
+              >
+                Advanced
+              </Typography>{" "}
+              <Typography
+                sx={{
+                  width: "fit-content",
+                  color: "primary.main",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                variant="caption"
+                onClick={() => {
+                  SetAdvancedSearch({
+                    advanced: false,
+                    nutrition: !advancedSearch.nutrition,
+                  });
+                }}
+              >
+                Nutrition
+              </Typography>
+            </Grid>
+
+            <Collapse
+              in={advancedSearch.advanced} //basic advanced filter info search
+            >
               <Grid container item flexDirection={"column"}>
                 {" "}
                 <Field
@@ -139,31 +240,52 @@ export const SearchBar = ({
                   sx={{ marginTop: "10px" }}
                   name="includeIngredient"
                   type="includeIngredient"
-                  label="Include Inredients"
+                  label="Include Ingredients"
                   component={Myinput}
                 />
                 <Field
                   sx={{ marginY: "5px" }}
                   name="excludeIngredient"
                   type="excludeIngredient"
-                  label="Exclude Inredients"
+                  label="Exclude Ingredients"
                   component={Myinput}
                 />
                 <Typography variant="caption">
                   *Ingredients must be seperated by comma
                 </Typography>
-                <Button
-                  size="small"
-                  sx={{ mt: "10px" }}
-                  onClick={() => {
-                    setShowRecipe(4);
-                    fetchRecipe();
-                    setActiveStep(0);
-                    SetAdvancedSearch(false);
-                  }}
-                >
-                  Something Random
-                </Button>
+              </Grid>
+            </Collapse>
+            <Collapse
+              in={advancedSearch.nutrition} //nutritional info search
+            >
+              <Grid container item flexDirection={"column"}>
+                {nutritionalSearch.map(({ label, value }) => {
+                  return (
+                    <Grid
+                      key={value}
+                      container
+                      item
+                      xs={12}
+                      justifyContent={"space-between"}
+                      alignItems="center"
+                      flexDirection={"row"}
+                    >
+                      <Typography>{label}</Typography>
+
+                      <Field
+                        sx={{
+                          width: "20%",
+                          marginY: "5px",
+                          "& .MuiInputBase-input": { paddingY: 0 },
+                        }}
+                        name={value}
+                        type={value}
+                        component={Myinput}
+                      />
+                      <Divider sx={{ width: "100%" }} />
+                    </Grid>
+                  );
+                })}
               </Grid>
             </Collapse>
           </Grid>
