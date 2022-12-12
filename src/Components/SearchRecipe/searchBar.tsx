@@ -97,7 +97,6 @@ export const SearchBar = ({
             maxCalories: values.maxCalories,
             minFat: values.minFat,
             maxFat: values.maxFat,
-
             minFiber: values.minFiber,
             maxFiber: values.maxFiber,
           },

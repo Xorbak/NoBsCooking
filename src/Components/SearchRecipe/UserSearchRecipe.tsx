@@ -25,6 +25,16 @@ interface SearchParams {
   excludeIngredients: string;
   cuisine: string;
   diet: string;
+  minCarbs: number;
+  maxCarbs: number;
+  minProtein: number;
+  maxProtein: number;
+  minCalories: number;
+  maxCalories: number;
+  minFat: number;
+  maxFat: number;
+  minFiber: number;
+  maxFiber: number;
 }
 export const UserSearchRecipe = ({
   searchRecipe,
@@ -67,6 +77,16 @@ export const UserSearchRecipe = ({
       diet: searchParams && searchParams.diet,
       includeIngredients: searchParams && searchParams.includeIngredients,
       excludeIngredients: searchParams && searchParams.excludeIngredients,
+      minCarbs: searchParams && searchParams.minCarbs,
+      maxCarbs: searchParams && searchParams.maxCarbs,
+      minProtein: searchParams && searchParams.minProtein,
+      maxProtein: searchParams && searchParams.maxProtein,
+      minCalories: searchParams && searchParams.minCalories,
+      maxCalories: searchParams && searchParams.maxCalories,
+      minFat: searchParams && searchParams.minFat,
+      maxFat: searchParams && searchParams.maxFat,
+      minFiber: searchParams && searchParams.minFiber,
+      maxFiber: searchParams && searchParams.maxFiber,
     },
     url: `https://api.spoonacular.com/recipes/complexSearch`,
   };
