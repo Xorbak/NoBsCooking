@@ -24,6 +24,8 @@ interface Props {
   setShowRecipe: React.Dispatch<React.SetStateAction<number>>;
   fetchRecipe: () => Promise<void>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  SetAdvancedSearch: React.Dispatch<React.SetStateAction<AdvancedSearch>>;
+  advancedSearch: AdvancedSearch;
 }
 interface AdvancedSearch {
   advanced: boolean;
@@ -31,265 +33,310 @@ interface AdvancedSearch {
 }
 interface NutritionalSearch {
   label: string;
-  value: string;
+  maxValue: string;
+  minValue: string;
 }
 export const SearchBar = ({
+  advancedSearch,
+  SetAdvancedSearch,
   SetRecipe,
   fetchRecipe,
   SetSearchRecipe,
   setActiveStep,
   setShowRecipe,
 }: Props) => {
-  const [advancedSearch, SetAdvancedSearch] = useState<AdvancedSearch>({
-    advanced: false,
-    nutrition: false,
-  });
   const nutritionalSearch: NutritionalSearch[] = [
-    { label: "Max Calories", value: "maxCalories" },
-    { label: "Min Calories", value: "minCalories" },
-    { label: "Max Carbs", value: "maxCarbs" },
-    { label: "Min Carbs", value: "minCarbs" },
-    { label: "Max Protein", value: "maxProtein" },
-    { label: "Min Protein", value: "minProtein" },
-    { label: "Max Fat", value: "maxFat" },
-    { label: "Min Fat", value: "minFat" },
-    { label: "Max Fiber", value: "maxFiber" },
-    { label: "Min Fiber", value: "minFiber" },
+    { label: "Calories", maxValue: "maxCalories", minValue: "minCalories" },
+    { label: "Carbs", maxValue: "maxCarbs", minValue: "minCarbs" },
+    { label: "Protein", maxValue: "maxProtein", minValue: "minProtein" },
+    { label: "Fat", maxValue: "maxFat", minValue: "minFat" },
+    { label: "Fiber", maxValue: "maxFiber", minValue: "minFiber" },
   ];
   return (
-    <Formik
-      initialValues={{
-        input: "",
-        cuisine: "",
-        diet: "",
-        excludeIngredient: "",
-        includeIngredient: "",
-        minCarbs: null,
-        maxCarbs: null,
-        minProtein: null,
-        maxProtein: null,
-        minCalories: null,
-        maxCalories: null,
-        minFat: null,
-        maxFat: null,
-        minFiber: null,
-        maxFiber: null,
-      }}
-      onSubmit={(values, { resetForm }) => {
-        const searchRes = {
-          method: "GET",
-          params: {
-            query: values.input,
-            apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
-            addRecipeInformation: true,
-            fillIngredients: true,
-            offset: 0,
-            number: 12,
-            cuisine: values.cuisine,
-            diet: values.diet,
-            includeIngredients: values.includeIngredient,
-            excludeIngredients: values.excludeIngredient,
-            minCarbs: values.minCarbs,
-            maxCarbs: values.maxCarbs,
-            minProtein: values.minProtein,
-            maxProtein: values.maxProtein,
-            minCalories: values.minCalories,
-            maxCalories: values.maxCalories,
-            minFat: values.minFat,
-            maxFat: values.maxFat,
-            minFiber: values.minFiber,
-            maxFiber: values.maxFiber,
-          },
-          url: `https://api.spoonacular.com/recipes/complexSearch`,
-        };
-        setShowRecipe(4);
-        console.log(values.cuisine);
-        axios
-          .request(searchRes)
-          .then((response) => {
-            console.log(response.data);
-            localStorage.setItem(
-              //Save response in local storage to use when moving to the next page
-              "searchParams",
-              JSON.stringify({
-                query: values.input,
-                addRecipeInformation: true,
-                fillIngredients: true,
-                offset: 0,
-                cuisine: values.cuisine,
-                diet: values.diet,
-                includeIngredients: values.includeIngredient,
-                excludeIngredients: values.excludeIngredient,
-                minCarbs: values.minCarbs,
-                maxCarbs: values.maxCarbs,
-                minProtein: values.minProtein,
-                maxProtein: values.maxProtein,
-                minCalories: values.minCalories,
-                maxCalories: values.maxCalories,
-                minFat: values.minFat,
-                maxFat: values.maxFat,
-                minFiber: values.minFiber,
-                maxFiber: values.maxFiber,
-              })
-            );
-            localStorage.setItem("searchRecipe", JSON.stringify(response.data)); //@ts-ignore
-            SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
-            setShowRecipe(2);
-          })
-          .catch((e) => {
-            console.log(e);
-            setShowRecipe(3);
-          });
-        resetForm();
-      }}
+    <Grid
+      container
+      justifyContent={"center"}
+      justifyItems="center"
+      item
+      xs={12}
+      sx={{ width: "100vw" }}
     >
-      {() => (
-        <Form>
+      <Formik
+        initialValues={{
+          input: "",
+          cuisine: "",
+          diet: "",
+          excludeIngredient: "",
+          includeIngredient: "",
+          minCarbs: "",
+          maxCarbs: "",
+          minProtein: "",
+          maxProtein: "",
+          minCalories: "",
+          maxCalories: "",
+          minFat: "",
+          maxFat: "",
+          minFiber: "",
+          maxFiber: "",
+        }}
+        onSubmit={(values, { resetForm }) => {
+          const searchRes = {
+            method: "GET",
+            params: {
+              query: values.input,
+              apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
+              addRecipeInformation: true,
+              fillIngredients: true,
+              offset: 0,
+              number: 12,
+              cuisine: values.cuisine,
+              diet: values.diet,
+              includeIngredients: values.includeIngredient,
+              excludeIngredients: values.excludeIngredient,
+              minCarbs: values.minCarbs == "" ? null : values.minCarbs,
+              maxCarbs: values.maxCarbs == "" ? null : values.maxCarbs,
+              minProtein: values.minProtein == "" ? null : values.minProtein,
+              maxProtein: values.maxProtein == "" ? null : values.maxProtein,
+              minCalories: values.minCalories == "" ? null : values.minCalories,
+              maxCalories: values.maxCalories == "" ? null : values.maxCalories,
+              minFat: values.minFat == "" ? null : values.minFat,
+              maxFat: values.maxFat == "" ? null : values.maxFat,
+              minFiber: values.minFiber == "" ? null : values.minFiber,
+              maxFiber: values.maxFiber == "" ? null : values.maxFiber,
+            },
+            url: `https://api.spoonacular.com/recipes/complexSearch`,
+          };
+          setShowRecipe(4);
+          console.log(values.cuisine);
+          axios
+            .request(searchRes)
+            .then((response) => {
+              console.log(response.data);
+              localStorage.setItem(
+                //Save response in local storage to use when moving to the next page
+                "searchParams",
+                JSON.stringify({
+                  query: values.input,
+                  addRecipeInformation: true,
+                  fillIngredients: true,
+                  offset: 0,
+                  cuisine: values.cuisine,
+                  diet: values.diet,
+                  includeIngredients: values.includeIngredient,
+                  excludeIngredients: values.excludeIngredient,
+                  minCarbs: values.minCarbs == "" ? null : values.minCarbs,
+                  maxCarbs: values.maxCarbs == "" ? null : values.maxCarbs,
+                  minProtein:
+                    values.minProtein == "" ? null : values.minProtein,
+                  maxProtein:
+                    values.maxProtein == "" ? null : values.maxProtein,
+                  minCalories:
+                    values.minCalories == "" ? null : values.minCalories,
+                  maxCalories:
+                    values.maxCalories == "" ? null : values.maxCalories,
+                  minFat: values.minFat == "" ? null : values.minFat,
+                  maxFat: values.maxFat == "" ? null : values.maxFat,
+                  minFiber: values.minFiber == "" ? null : values.minFiber,
+                  maxFiber: values.maxFiber == "" ? null : values.maxFiber,
+                })
+              );
+              localStorage.setItem(
+                "searchRecipe",
+                JSON.stringify(response.data)
+              ); //@ts-ignore
+              SetSearchRecipe(JSON.parse(localStorage.getItem("searchRecipe")));
+              setShowRecipe(2);
+            })
+            .catch((e) => {
+              console.log(e);
+              setShowRecipe(3);
+            });
+          resetForm();
+        }}
+      >
+        {() => (
           <Grid
             container
             flexDirection="column"
-            textAlign="start"
-            alignContent={"center"}
+            xs={2.5}
+            justifyItems="center"
+            justifySelf={"center"}
+            justifyContent="center"
+            alignContent={"space-between"}
+            alignItems="center"
           >
-            <Field
-              name="input"
-              type="input"
-              component={Myinput}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      type="submit"
-                      onClick={() => {
-                        SetAdvancedSearch({
-                          advanced: false,
-                          nutrition: false,
-                        });
-                      }}
-                    >
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            ></Field>
-            <Button
-              size="small"
-              sx={{ mt: "10px" }}
-              onClick={() => {
-                setShowRecipe(4);
-                fetchRecipe();
-                setActiveStep(0);
-              }}
-            >
-              Something Random
-            </Button>
-            <Grid flexDirection={"row"}>
-              {" "}
-              <Typography
-                sx={{
-                  width: "fit-content",
-                  color: "primary.main",
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
+            <Form>
+              <Field
+                //sx={{ width: { xs: "95vw", md: "30vw" } }}
+                name="input"
+                type="input"
+                component={Myinput}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        type="submit"
+                        onClick={() => {
+                          SetAdvancedSearch({
+                            advanced: false,
+                            nutrition: false,
+                          });
+                        }}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
-                variant="caption"
+              />
+              <Button
+                size="small"
+                sx={{ mt: "10px" }}
                 onClick={() => {
-                  SetAdvancedSearch({
-                    advanced: !advancedSearch.advanced,
-                    nutrition: false,
-                  });
+                  setShowRecipe(4);
+                  fetchRecipe();
+                  setActiveStep(0);
                 }}
               >
-                Advanced
-              </Typography>{" "}
-              <Typography
-                sx={{
-                  width: "fit-content",
-                  color: "primary.main",
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-                variant="caption"
-                onClick={() => {
-                  SetAdvancedSearch({
-                    advanced: false,
-                    nutrition: !advancedSearch.nutrition,
-                  });
-                }}
-              >
-                Nutrition
-              </Typography>
-            </Grid>
-
-            <Collapse
-              in={advancedSearch.advanced} //basic advanced filter info search
-            >
-              <Grid container item flexDirection={"column"}>
-                {" "}
-                <Field
-                  name="cuisine"
-                  type="cuisine"
-                  component={CuisineDropDown}
-                />{" "}
-                <Field name="diet" type="diet" component={DietDropDown} />
-                <Field
-                  sx={{ marginTop: "10px" }}
-                  name="includeIngredient"
-                  type="includeIngredient"
-                  label="Include Ingredients"
-                  component={Myinput}
-                />
-                <Field
-                  sx={{ marginY: "5px" }}
-                  name="excludeIngredient"
-                  type="excludeIngredient"
-                  label="Exclude Ingredients"
-                  component={Myinput}
-                />
-                <Typography variant="caption">
-                  *Ingredients must be seperated by comma
+                Something Random
+              </Button>
+              <Grid flexDirection={"row"} justifyContent="center">
+                <Typography
+                  sx={{
+                    width: "fit-content",
+                    marginRight: "10px",
+                    color: "primary.main",
+                    "&:hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  variant="caption"
+                  onClick={() => {
+                    SetAdvancedSearch({
+                      advanced: !advancedSearch.advanced,
+                      nutrition: false,
+                    });
+                  }}
+                >
+                  Advanced
+                </Typography>{" "}
+                <Typography
+                  sx={{
+                    width: "fit-content",
+                    color: "primary.main",
+                    "&:hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  variant="caption"
+                  onClick={() => {
+                    SetAdvancedSearch({
+                      advanced: false,
+                      nutrition: !advancedSearch.nutrition,
+                    });
+                  }}
+                >
+                  Nutrition
                 </Typography>
               </Grid>
-            </Collapse>
-            <Collapse
-              in={advancedSearch.nutrition} //nutritional info search
-            >
-              <Grid container item flexDirection={"column"}>
-                {nutritionalSearch.map(({ label, value }) => {
-                  return (
-                    <Grid
-                      key={value}
-                      container
-                      item
-                      xs={12}
-                      justifyContent={"space-between"}
-                      alignItems="center"
-                      flexDirection={"row"}
-                    >
-                      <Typography>{label}</Typography>
+              <Collapse
+                in={advancedSearch.advanced} //basic advanced filter info search
+              >
+                <Grid
+                  container
+                  item
+                  textAlign={"justify"}
+                  flexDirection={"column"}
+                >
+                  {" "}
+                  <Field
+                    name="cuisine"
+                    type="cuisine"
+                    component={CuisineDropDown}
+                  />
+                  <Field name="diet" type="diet" component={DietDropDown} />
+                  <Field
+                    sx={{ marginTop: "10px" }}
+                    name="includeIngredient"
+                    type="includeIngredient"
+                    label="Include Ingredients"
+                    component={Myinput}
+                  />
+                  <Field
+                    sx={{ marginY: "5px" }}
+                    name="excludeIngredient"
+                    type="excludeIngredient"
+                    label="Exclude Ingredients"
+                    component={Myinput}
+                  />
+                  <Typography variant="caption">
+                    *Ingredients must be seperated by comma
+                  </Typography>
+                </Grid>
+              </Collapse>
+              <Collapse
+                in={advancedSearch.nutrition} //basic advanced filter info search
+              >
+                <Grid
+                  container
+                  item
+                  textAlign={"justify"}
+                  flexDirection={"column"}
+                >
+                  {nutritionalSearch.map(({ label, maxValue, minValue }) => {
+                    return (
+                      <Grid
+                        container
+                        flexDirection={"row"}
+                        alignItems="center"
+                        alignContent={"center"}
+                      >
+                        <Grid container xs={4}>
+                          {" "}
+                          <Typography
+                            sx={{ display: "flex", marginRight: "5px" }}
+                          >
+                            {label} :
+                          </Typography>
+                        </Grid>
 
-                      <Field
-                        sx={{
-                          width: "20%",
-                          marginY: "5px",
-                          "& .MuiInputBase-input": { paddingY: 0 },
-                        }}
-                        name={value}
-                        type={value}
-                        component={Myinput}
-                      />
-                      <Divider sx={{ width: "100%" }} />
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </Collapse>
+                        <Grid xs={6} container gap={1} flexDirection={"row"}>
+                          <Field
+                            sx={{
+                              marginY: "5px",
+                              width: "40%",
+                              display: "flex",
+                              "& .MuiInputBase-input": { paddingY: 0 },
+                              "& .MuiInputLabel-root": { top: "-15px" },
+                            }}
+                            name={maxValue}
+                            type={maxValue}
+                            placeholder="Max"
+                            component={Myinput}
+                          />
+                          <Field
+                            sx={{
+                              marginY: "5px",
+                              width: "40%",
+                              display: "flex",
+                              "& .MuiInputBase-input": { paddingY: 0 },
+                              "& .MuiFormLabel-root": { top: "-15px" },
+                            }}
+                            name={minValue}
+                            type={minValue}
+                            placeholder="Min"
+                            component={Myinput}
+                          />
+                        </Grid>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Collapse>
+            </Form>{" "}
           </Grid>
-        </Form>
-      )}
-    </Formik>
+        )}
+      </Formik>
+    </Grid>
   );
 };

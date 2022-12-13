@@ -2,12 +2,11 @@ import { Button, Grid, MobileStepper, Typography, Zoom } from "@mui/material";
 import { ComplexSearchRecipe } from "../../App";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { RecipeCardImage } from "../RandomRecipe/Components/RecipeCardImage";
-import { RecipeCard } from "../RandomRecipe/Components/RecipeCard";
-import { RecipeCardInfo } from "../RandomRecipe/Components/recipeCardInfo";
+
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import axios from "axios";
+import { AdvancedSearch } from "../../Screens/Home/Home";
 interface Props {
   searchRecipe: ComplexSearchRecipe | undefined;
   activeRecipe: number | undefined;
@@ -16,6 +15,8 @@ interface Props {
     React.SetStateAction<ComplexSearchRecipe | undefined>
   >;
   setShowRecipe: React.Dispatch<React.SetStateAction<number>>;
+  SetAdvancedSearch: React.Dispatch<React.SetStateAction<AdvancedSearch>>;
+  advancedSearch: AdvancedSearch;
 }
 interface SearchParams {
   query: string;
@@ -38,6 +39,8 @@ interface SearchParams {
 }
 export const UserSearchRecipe = ({
   searchRecipe,
+  advancedSearch,
+  SetAdvancedSearch,
   activeRecipe,
   setActiveRecipe,
   SetSearchRecipe,
@@ -232,6 +235,7 @@ export const UserSearchRecipe = ({
             <Button
               size="small"
               onClick={() => (
+                SetAdvancedSearch({ nutrition: false, advanced: false }),
                 SetSearchRecipe(undefined),
                 handleNext(),
                 window.scrollTo(0, 0),
@@ -257,6 +261,7 @@ export const UserSearchRecipe = ({
           backButton={
             <Button
               onClick={() => (
+                SetAdvancedSearch({ nutrition: false, advanced: false }),
                 SetSearchRecipe(undefined),
                 handleBack(),
                 window.scrollTo(0, 0),

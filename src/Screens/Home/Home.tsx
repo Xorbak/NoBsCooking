@@ -20,7 +20,10 @@ interface Props {
   showRecipe: number;
   setShowRecipe: React.Dispatch<React.SetStateAction<number>>;
 }
-
+export interface AdvancedSearch {
+  advanced: boolean;
+  nutrition: boolean;
+}
 export const Home = ({
   fetchRecipe,
   searchRecipe,
@@ -34,6 +37,10 @@ export const Home = ({
   activeRecipe,
   SetSearchRecipe,
 }: Props) => {
+  const [advancedSearch, SetAdvancedSearch] = useState<AdvancedSearch>({
+    advanced: false,
+    nutrition: false,
+  });
   return (
     <Grid
       container
@@ -44,6 +51,8 @@ export const Home = ({
       sx={{ minHeight: "100vh" }}
     >
       <SearchRecipe
+        SetAdvancedSearch={SetAdvancedSearch}
+        advancedSearch={advancedSearch}
         SetSearchRecipe={SetSearchRecipe}
         SetRecipe={SetRecipe}
         setShowRecipe={setShowRecipe}
@@ -65,6 +74,8 @@ export const Home = ({
 
       {showRecipe == 2 && (
         <UserSearchRecipe
+          SetAdvancedSearch={SetAdvancedSearch}
+          advancedSearch={advancedSearch}
           setActiveRecipe={setActiveRecipe}
           activeRecipe={activeRecipe}
           searchRecipe={searchRecipe}
