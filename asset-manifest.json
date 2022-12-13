@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/NoBsCooking/static/css/main.073c9b0a.css",
-    "main.js": "/NoBsCooking/static/js/main.eb60fb6b.js",
+    "main.js": "/NoBsCooking/static/js/main.5c9dd0ba.js",
     "static/js/787.668891f1.chunk.js": "/NoBsCooking/static/js/787.668891f1.chunk.js",
     "index.html": "/NoBsCooking/index.html",
     "main.073c9b0a.css.map": "/NoBsCooking/static/css/main.073c9b0a.css.map",
-    "main.eb60fb6b.js.map": "/NoBsCooking/static/js/main.eb60fb6b.js.map",
+    "main.5c9dd0ba.js.map": "/NoBsCooking/static/js/main.5c9dd0ba.js.map",
     "787.668891f1.chunk.js.map": "/NoBsCooking/static/js/787.668891f1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.eb60fb6b.js"
+    "static/js/main.5c9dd0ba.js"
   ]
 }
