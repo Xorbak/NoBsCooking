@@ -158,7 +158,11 @@ export const SearchBar = ({
           <Grid
             container
             flexDirection="column"
-            xs={2.5}
+            xs={8.5}
+            sm={5.5}
+            md={4}
+            lg={2.5}
+            xl={1.5}
             justifyItems="center"
             justifySelf={"center"}
             justifyContent="center"
@@ -281,6 +285,7 @@ export const SearchBar = ({
                   container
                   item
                   textAlign={"justify"}
+                  justifyContent={"space-between"}
                   flexDirection={"column"}
                 >
                   {nutritionalSearch.map(({ label, maxValue, minValue }) => {
@@ -291,20 +296,26 @@ export const SearchBar = ({
                         alignItems="center"
                         alignContent={"center"}
                       >
-                        <Grid container xs={4}>
+                        <Grid container xs={4} sm={4}>
                           {" "}
                           <Typography
-                            sx={{ display: "flex", marginRight: "5px" }}
+                            sx={{ display: "flex", marginRight: "10px" }}
                           >
-                            {label} :
+                            {label}
                           </Typography>
                         </Grid>
 
-                        <Grid xs={6} container gap={1} flexDirection={"row"}>
+                        <Grid
+                          xs={8}
+                          sm={6}
+                          container
+                          gap={1}
+                          flexDirection={"row"}
+                        >
                           <Field
                             sx={{
                               marginY: "5px",
-                              width: "40%",
+                              width: { xs: "40%" },
                               display: "flex",
                               "& .MuiInputBase-input": { paddingY: 0 },
                               "& .MuiInputLabel-root": { top: "-15px" },
@@ -317,7 +328,7 @@ export const SearchBar = ({
                           <Field
                             sx={{
                               marginY: "5px",
-                              width: "40%",
+                              width: { xs: "40%", sm: "40%" },
                               display: "flex",
                               "& .MuiInputBase-input": { paddingY: 0 },
                               "& .MuiFormLabel-root": { top: "-15px" },
