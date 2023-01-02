@@ -157,6 +157,7 @@ export const SearchBar = ({
         {() => (
           <Grid
             container
+            item
             flexDirection="column"
             xs={8.5}
             sm={5.5}
@@ -291,12 +292,13 @@ export const SearchBar = ({
                   {nutritionalSearch.map(({ label, maxValue, minValue }) => {
                     return (
                       <Grid
+                        key={label + maxValue + minValue}
                         container
                         flexDirection={"row"}
                         alignItems="center"
                         alignContent={"center"}
                       >
-                        <Grid container xs={4} sm={4}>
+                        <Grid item container xs={4} sm={4}>
                           {" "}
                           <Typography
                             sx={{ display: "flex", marginRight: "10px" }}
@@ -309,6 +311,7 @@ export const SearchBar = ({
                           xs={8}
                           sm={6}
                           container
+                          item
                           gap={1}
                           flexDirection={"row"}
                         >

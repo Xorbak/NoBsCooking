@@ -61,15 +61,24 @@ export const Home = ({
         showRecipe={showRecipe}
       />
       {showRecipe == 1 && (
-        <RandomRecipeCard
-          recipe={recipe}
-          fetchRecipe={fetchRecipe}
-          setActiveStep={setActiveStep}
-          SetRecipe={SetRecipe}
-          activeStep={activeStep}
-          setActiveRecipe={setActiveRecipe}
-          activeRecipe={activeRecipe}
-        />
+        <React.Fragment>
+          {recipe && recipe.code !== 402 ? (
+            <RandomRecipeCard
+              recipe={recipe}
+              fetchRecipe={fetchRecipe}
+              setActiveStep={setActiveStep}
+              SetRecipe={SetRecipe}
+              activeStep={activeStep}
+              setActiveRecipe={setActiveRecipe}
+              activeRecipe={activeRecipe}
+            />
+          ) : (
+            <Typography color={"error"}>
+              Something went wrong try again later - Most likely ran out of API
+              calls{" "}
+            </Typography>
+          )}
+        </React.Fragment>
       )}
 
       {showRecipe == 2 && (
