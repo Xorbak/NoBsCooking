@@ -47,7 +47,7 @@ export const NewSlider = ({
       flexDirection="row"
       item
       xs={12}
-      md={8}
+      md={12}
     >
       <Grid alignSelf="center">
         <Button sx={styles.navigationButtons} size="large" onClick={handleBack}>

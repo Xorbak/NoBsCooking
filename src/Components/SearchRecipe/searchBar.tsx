@@ -187,7 +187,7 @@ export const SearchBar = ({
                           });
                         }}
                       >
-                        <SearchIcon />
+                        <SearchIcon color="primary" />
                       </IconButton>
                     </InputAdornment>
                   ),

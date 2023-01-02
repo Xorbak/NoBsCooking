@@ -120,7 +120,7 @@ export const UserSearchRecipe = ({
           >
             <Grid //content card
               item
-              sx={{ borderRadius: "5px" }}
+              sx={{ borderRadius: "5px", backgroundColor: "background.paper" }}
               boxShadow={5}
               ml={"5px"}
               marginBottom={"20px"}
