@@ -5,6 +5,9 @@ import Grid from "@mui/material/Grid";
 import { Route, Routes } from "react-router-dom";
 import { FullRecipe } from "./Components/FullRecipe/FullRecipe";
 import { Home } from "./Screens/Home/Home";
+import { ThemeProvider } from "@emotion/react";
+import { lightMode } from "./Components/themes";
+import { NavBar } from "./Components/NavBar/NavBar";
 export interface Recipe {
   code?: number;
   recipes: {
@@ -82,63 +85,66 @@ function App() {
   }, []);
 
   return (
-    <Grid
-      sx={Styles.App}
-      justifyContent={"center"}
-      alignContent={"center"}
-      flexDirection={"column"}
-      container
-      item
-      columns={10}
-      xs={12}
-    >
-      <Routes>
-        <Route
-          path={`/`}
-          element={
-            <Home
-              searchRecipe={searchRecipe}
-              recipe={recipe}
-              fetchRecipe={fetchRecipe}
-              setActiveStep={setActiveStep}
-              SetRecipe={SetRecipe}
-              showRecipe={showRecipe}
-              setShowRecipe={setShowRecipe}
-              activeStep={activeStep}
-              activeRecipe={activeRecipe}
-              setActiveRecipe={setActiveRecipe}
-              SetSearchRecipe={SetSearchRecipe}
-            />
-          }
-        ></Route>
-        <Route
-          path={`/random/${activeRecipe}`}
-          element={
-            <FullRecipe
-              recipe={recipe}
-              activeRecipe={activeRecipe}
-              activeStep={activeStep}
-              SetRecipe={SetRecipe}
-              setActiveRecipe={setActiveRecipe}
-              setShowRecipe={setShowRecipe}
-            />
-          }
-        ></Route>
-        <Route
-          path={`/search/${activeRecipe}`}
-          element={
-            <FullRecipe
-              activeRecipe={activeRecipe}
-              setActiveRecipe={setActiveRecipe}
-              activeStep={activeStep}
-              searchRecipe={searchRecipe}
-              SetSearchRecipe={SetSearchRecipe}
-              setShowRecipe={setShowRecipe}
-            />
-          }
-        ></Route>
-      </Routes>
-    </Grid>
+    <ThemeProvider theme={lightMode}>
+      <NavBar />
+      <Grid
+        sx={Styles.App}
+        justifyContent={"center"}
+        alignContent={"center"}
+        flexDirection={"column"}
+        container
+        item
+        columns={10}
+        xs={12}
+      >
+        <Routes>
+          <Route
+            path={`/`}
+            element={
+              <Home
+                searchRecipe={searchRecipe}
+                recipe={recipe}
+                fetchRecipe={fetchRecipe}
+                setActiveStep={setActiveStep}
+                SetRecipe={SetRecipe}
+                showRecipe={showRecipe}
+                setShowRecipe={setShowRecipe}
+                activeStep={activeStep}
+                activeRecipe={activeRecipe}
+                setActiveRecipe={setActiveRecipe}
+                SetSearchRecipe={SetSearchRecipe}
+              />
+            }
+          ></Route>
+          <Route
+            path={`/random/${activeRecipe}`}
+            element={
+              <FullRecipe
+                recipe={recipe}
+                activeRecipe={activeRecipe}
+                activeStep={activeStep}
+                SetRecipe={SetRecipe}
+                setActiveRecipe={setActiveRecipe}
+                setShowRecipe={setShowRecipe}
+              />
+            }
+          ></Route>
+          <Route
+            path={`/search/${activeRecipe}`}
+            element={
+              <FullRecipe
+                activeRecipe={activeRecipe}
+                setActiveRecipe={setActiveRecipe}
+                activeStep={activeStep}
+                searchRecipe={searchRecipe}
+                SetSearchRecipe={SetSearchRecipe}
+                setShowRecipe={setShowRecipe}
+              />
+            }
+          ></Route>
+        </Routes>
+      </Grid>
+    </ThemeProvider>
   );
 }
 
