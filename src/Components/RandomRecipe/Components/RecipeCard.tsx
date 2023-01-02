@@ -19,13 +19,13 @@ export const RecipeCard = ({
 }: Props) => {
   return (
     <Grid //content card
-      sx={{ borderRadius: "5px" }}
+      sx={{ borderRadius: "5px", backgroundColor: "background.paper" }}
       boxShadow={5}
       item
       marginBottom={"20px"}
       xs={11}
       sm={8}
-      md={6}
+      md={3}
     >
       <SwipeableViews
         index={activeStep}
