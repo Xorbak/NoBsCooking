@@ -53,15 +53,19 @@ export const UserSearchRecipe = ({
     setSearchParams(JSON.parse(localStorage.getItem("searchParams")));
   }, []);
   //functions for the mobile stepper
-  const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = searchRecipe == undefined ? 0 : searchRecipe.totalResults;
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [offsetValue, setOffsetValue] = useState<number>(0);
+  const maxSteps =
+    searchRecipe == undefined ? 0 : Math.ceil(searchRecipe.totalResults / 12);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const handleNext = async () => {
+    setActiveStep(activeStep + 1);
+    setOffsetValue(offsetValue + 12);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(activeStep - 1);
+    setOffsetValue(offsetValue - 12);
   };
   const handleStepChange = (step: number) => {
     setActiveStep(step);
@@ -74,7 +78,7 @@ export const UserSearchRecipe = ({
       apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
       addRecipeInformation: searchParams && searchParams.addRecipeInformation,
       fillIngredients: searchParams && searchParams.fillIngredients,
-      offset: (activeStep + 1) * 12,
+      offset: offsetValue,
       number: 12,
       cuisine: searchParams && searchParams.cuisine,
       diet: searchParams && searchParams.diet,
@@ -93,7 +97,7 @@ export const UserSearchRecipe = ({
     },
     url: `https://api.spoonacular.com/recipes/complexSearch`,
   };
-
+  console.log(offsetValue);
   return (
     <Grid
       container
@@ -234,10 +238,10 @@ export const UserSearchRecipe = ({
           nextButton={
             <Button
               size="small"
+              onPointerDown={() => handleNext()}
               onClick={() => (
                 SetAdvancedSearch({ nutrition: false, advanced: false }),
                 SetSearchRecipe(undefined),
-                handleNext(),
                 window.scrollTo(0, 0),
                 axios.request(searchRes).then((response) => {
                   console.log(response.data);
@@ -260,10 +264,11 @@ export const UserSearchRecipe = ({
           }
           backButton={
             <Button
-              onClick={() => (
+              disabled={activeStep === 0}
+              onPointerDown={() => handleBack()}
+              onClick={async () => (
                 SetAdvancedSearch({ nutrition: false, advanced: false }),
                 SetSearchRecipe(undefined),
-                handleBack(),
                 window.scrollTo(0, 0),
                 axios.request(searchRes).then((response) => {
                   console.log(response.data);
@@ -278,7 +283,6 @@ export const UserSearchRecipe = ({
                   );
                 })
               )}
-              disabled={activeStep === 0}
             >
               <KeyboardArrowLeft />
               Back
