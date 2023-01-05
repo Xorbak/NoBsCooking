@@ -9,13 +9,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import { useState } from "react";
 import { ComplexSearchRecipe, Recipe } from "../../App";
 import { CuisineDropDown } from "./cuisineDropDown";
 import { DietDropDown } from "./dietSearch";
 import { Myinput } from "./myInput";
 import SearchIcon from "@mui/icons-material/Search";
-import { validateHeaderName } from "http";
+
 interface Props {
   SetRecipe: React.Dispatch<React.SetStateAction<Recipe | undefined>>;
   SetSearchRecipe: React.Dispatch<
@@ -39,7 +38,6 @@ interface NutritionalSearch {
 export const SearchBar = ({
   advancedSearch,
   SetAdvancedSearch,
-  SetRecipe,
   fetchRecipe,
   SetSearchRecipe,
   setActiveStep,
@@ -68,6 +66,7 @@ export const SearchBar = ({
           diet: "",
           excludeIngredient: "",
           includeIngredient: "",
+          //initial values cant be null because it doesnt reset with form reset if its null- the value resets on the back but its still visible
           minCarbs: "",
           maxCarbs: "",
           minProtein: "",
@@ -93,6 +92,7 @@ export const SearchBar = ({
               diet: values.diet,
               includeIngredients: values.includeIngredient,
               excludeIngredients: values.excludeIngredient,
+              // Max and Min values save as string but needs to be a number/null
               minCarbs: values.minCarbs == "" ? null : values.minCarbs,
               maxCarbs: values.maxCarbs == "" ? null : values.maxCarbs,
               minProtein: values.minProtein == "" ? null : values.minProtein,
@@ -124,6 +124,7 @@ export const SearchBar = ({
                   diet: values.diet,
                   includeIngredients: values.includeIngredient,
                   excludeIngredients: values.excludeIngredient,
+                  // Max and Min values save as string but needs to be a number/null
                   minCarbs: values.minCarbs == "" ? null : values.minCarbs,
                   maxCarbs: values.maxCarbs == "" ? null : values.maxCarbs,
                   minProtein:
@@ -172,7 +173,7 @@ export const SearchBar = ({
           >
             <Form>
               <Field
-                //sx={{ width: { xs: "95vw", md: "30vw" } }}
+                //sx={{ width: { xs: "95vw", md: "30vw" } }} - cant remember what this was supposed to do
                 name="input"
                 type="input"
                 component={Myinput}
@@ -205,7 +206,10 @@ export const SearchBar = ({
               >
                 Something Random
               </Button>
-              <Grid flexDirection={"row"} justifyContent="center">
+              <Grid
+                flexDirection={"row"}
+                justifyContent="center" // advanced search features start here
+              >
                 <Typography
                   sx={{
                     width: "fit-content",
@@ -217,6 +221,7 @@ export const SearchBar = ({
                   }}
                   variant="caption"
                   onClick={() => {
+                    //opens and closes the tab - closes any other that are open
                     SetAdvancedSearch({
                       advanced: !advancedSearch.advanced,
                       nutrition: false,
@@ -235,6 +240,7 @@ export const SearchBar = ({
                   }}
                   variant="caption"
                   onClick={() => {
+                    //opens and closes the tab - closes any other that are open
                     SetAdvancedSearch({
                       advanced: false,
                       nutrition: !advancedSearch.nutrition,
@@ -244,7 +250,7 @@ export const SearchBar = ({
                   Nutrition
                 </Typography>
               </Grid>
-              <Collapse
+              <Collapse //advanced
                 in={advancedSearch.advanced} //basic advanced filter info search
               >
                 <Grid
@@ -279,7 +285,7 @@ export const SearchBar = ({
                   </Typography>
                 </Grid>
               </Collapse>
-              <Collapse
+              <Collapse //nutrition
                 in={advancedSearch.nutrition} //basic advanced filter info search
               >
                 <Grid

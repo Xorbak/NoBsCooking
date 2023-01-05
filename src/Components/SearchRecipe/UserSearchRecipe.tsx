@@ -2,11 +2,11 @@ import { Button, Grid, MobileStepper, Typography, Zoom } from "@mui/material";
 import { ComplexSearchRecipe } from "../../App";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import axios from "axios";
 import { AdvancedSearch } from "../../Screens/Home/Home";
+
 interface Props {
   searchRecipe: ComplexSearchRecipe | undefined;
   activeRecipe: number | undefined;
@@ -39,12 +39,10 @@ interface SearchParams {
 }
 export const UserSearchRecipe = ({
   searchRecipe,
-  advancedSearch,
   SetAdvancedSearch,
   activeRecipe,
   setActiveRecipe,
   SetSearchRecipe,
-  setShowRecipe,
 }: Props) => {
   const [searchParams, setSearchParams] = useState<SearchParams>();
   useEffect(() => {
@@ -54,6 +52,7 @@ export const UserSearchRecipe = ({
   }, []);
   //functions for the mobile stepper
   const [activeStep, setActiveStep] = useState<number>(0);
+  //Offset is used when going to the next/last page when using complex search
   const [offsetValue, setOffsetValue] = useState<number>(0);
   const maxSteps =
     searchRecipe == undefined ? 0 : Math.ceil(searchRecipe.totalResults / 12);
@@ -67,9 +66,6 @@ export const UserSearchRecipe = ({
     setActiveStep(activeStep - 1);
     setOffsetValue(offsetValue - 12);
   };
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
 
   const searchRes = {
     method: "GET",
@@ -78,6 +74,7 @@ export const UserSearchRecipe = ({
       apiKey: `${process.env.REACT_APP_COMPLEX_SEARCH}`,
       addRecipeInformation: searchParams && searchParams.addRecipeInformation,
       fillIngredients: searchParams && searchParams.fillIngredients,
+      //the offset param will ignore the number of responses that is equal to its value - I use it to search for the next response
       offset: offsetValue,
       number: 12,
       cuisine: searchParams && searchParams.cuisine,
@@ -114,7 +111,7 @@ export const UserSearchRecipe = ({
 
       {searchRecipe &&
         searchRecipe.results.map((i) => (
-          <Zoom
+          <Zoom //mui animation component
             in={true}
             key={i.id}
             style={{
@@ -139,6 +136,7 @@ export const UserSearchRecipe = ({
                 xs={12}
                 item
                 onPointerDown={() => {
+                  // using on pointer down because the state does not update intime on click -- maybe just make it a normal variable
                   localStorage.setItem("activeRecipe", JSON.stringify(i.id));
                   setActiveRecipe(i.id);
                   console.log(activeRecipe);
@@ -159,19 +157,19 @@ export const UserSearchRecipe = ({
                     src={i.image}
                   />
                 </NavLink>
-                <Grid
+                <Grid // container with the title
                   container
                   item
                   paddingX={"10px"}
                   textAlign={"start"}
-                  xs={12} // container with the title
+                  xs={12}
                 >
-                  <Typography
+                  <Typography //label
                     sx={{
                       textDecoration: "underline",
                       marginBottom: "10px",
                     }}
-                    variant="subtitle1" //label
+                    variant="subtitle1"
                     fontWeight={"bold"}
                   >
                     {i.title}
@@ -185,7 +183,6 @@ export const UserSearchRecipe = ({
                     textAlign="start"
                     marginBottom={"10px"}
                   >
-                    {" "}
                     <Grid container item xs={12}>
                       <Typography variant="subtitle2">
                         Ready in :{i.readyInMinutes} Min
@@ -238,7 +235,7 @@ export const UserSearchRecipe = ({
           nextButton={
             <Button
               size="small"
-              onPointerDown={() => handleNext()}
+              onPointerDown={() => handleNext()} // on pointer to change state before the onclick event happens
               onClick={() => (
                 SetAdvancedSearch({ nutrition: false, advanced: false }),
                 SetSearchRecipe(undefined),

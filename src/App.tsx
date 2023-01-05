@@ -8,6 +8,7 @@ import { Home } from "./Screens/Home/Home";
 import { ThemeProvider } from "@emotion/react";
 import { lightMode } from "./Components/themes";
 import { NavBar } from "./Components/NavBar/NavBar";
+import { WelcomeMessage } from "./Components/WelcomeMessage/WelcomeMessage";
 export interface Recipe {
   code?: number;
   recipes: {
@@ -63,7 +64,7 @@ function App() {
   const [recipe, SetRecipe] = useState<Recipe>();
   const [searchRecipe, SetSearchRecipe] = useState<ComplexSearchRecipe>();
   const [activeRecipe, setActiveRecipe] = useState<number | undefined>();
-  const [showRecipe, setShowRecipe] = useState<number>(5);
+  const [showRecipe, setShowRecipe] = useState<number>(0);
   const fetchRecipe = async () => {
     await fetch(`${process.env.REACT_APP_RANDOM_RECIPE}`)
       .then((res) => res.json())
@@ -98,8 +99,9 @@ function App() {
         xs={12}
       >
         <Routes>
+          <Route path={`/`} element={<WelcomeMessage />} />
           <Route
-            path={`/`}
+            path={`/search`}
             element={
               <Home
                 searchRecipe={searchRecipe}
@@ -115,9 +117,9 @@ function App() {
                 SetSearchRecipe={SetSearchRecipe}
               />
             }
-          ></Route>
+          />
           <Route
-            path={`/random/${activeRecipe}`}
+            path={`/search/random/${activeRecipe}`}
             element={
               <FullRecipe
                 recipe={recipe}
@@ -130,7 +132,7 @@ function App() {
             }
           ></Route>
           <Route
-            path={`/search/${activeRecipe}`}
+            path={`/search/detailedSearch/${activeRecipe}`}
             element={
               <FullRecipe
                 activeRecipe={activeRecipe}

@@ -5,6 +5,7 @@ import { UserSearchRecipe } from "../../Components/SearchRecipe/UserSearchRecipe
 import { SearchRecipe } from "../../Components/SearchRecipe/SearchRecipe";
 import { Grid, Typography } from "@mui/material";
 import { RecipeCardImage } from "../../Components/RandomRecipe/Components/RecipeCardImage";
+import { WelcomeMessage } from "../../Components/WelcomeMessage/WelcomeMessage";
 interface Props {
   fetchRecipe: () => Promise<void>;
   recipe: Recipe | undefined;
@@ -60,6 +61,7 @@ export const Home = ({
         setActiveStep={setActiveStep}
         showRecipe={showRecipe}
       />
+
       {showRecipe == 1 && (
         <React.Fragment>
           {recipe && recipe.code !== 402 ? (

@@ -8,6 +8,10 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import Grid from "@mui/material/Grid";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,27 +60,46 @@ export const NavBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="relative">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2, display: { xs: "block", md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+          <NavLink to="/">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2, display: { xs: "block", md: "none" } }}
+            >
+              <HomeIcon sx={{ color: "primary.dark" }} />
+            </IconButton>{" "}
+          </NavLink>
+          <Grid
             sx={{
               flexGrow: 1,
-              display: { xs: "none", sm: "flex", justifyContent: "center" },
+              color: "primary.dark",
+              display: { xs: "none", sm: "flex" },
+              justifyContent: "center",
             }}
           >
-            No BS Cooking
-          </Typography>
+            <NavLink
+              style={{ textDecoration: "none", textDecorationColor: "none" }}
+              to={"/"}
+            >
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  color: "primary.dark",
+                  justifyContent: "center",
+                }}
+              >
+                No BS Cooking{" "}
+              </Typography>
+            </NavLink>
+          </Grid>
           <Search
+            onClick={() => {
+              alert("feature comming soon");
+            }}
             sx={{
               position: { xs: "sticky", md: "absolute" },
               right: "30px",
