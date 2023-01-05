@@ -1,7 +1,7 @@
 {
   "homepage": "https://xorbak.github.io/NoBsCooking/",
   "name": "nobscooking",
-  "version": "0.1.4",
+  "version": "0.1.4.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
