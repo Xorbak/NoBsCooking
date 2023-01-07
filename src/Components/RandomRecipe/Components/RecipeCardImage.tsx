@@ -8,7 +8,7 @@ interface Props {
 
 export const RecipeCardImage = ({ image, activeRecipe }: Props) => {
   return (
-    <NavLink to={`${activeRecipe}`}>
+    <NavLink to={`/search/${activeRecipe}`}>
       <Grid
         xs={12}
         width={"100%"}

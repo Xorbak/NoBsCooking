@@ -143,7 +143,7 @@ export const UserSearchRecipe = ({
                 }}
                 sx={{ cursor: "pointer" }}
               >
-                <NavLink to={`/search/${activeRecipe}`}>
+                <NavLink to={`/search/detailedSearch/${activeRecipe}`}>
                   <Grid
                     xs={12}
                     width="100vw"

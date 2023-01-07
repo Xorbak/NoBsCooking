@@ -91,7 +91,7 @@ export const FullRecipe = ({
                       }}
                       variant="caption"
                     >
-                      <NavLink to={"/"}>Back</NavLink>{" "}
+                      <NavLink to={"/search"}>Back</NavLink>{" "}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -249,7 +249,7 @@ export const FullRecipe = ({
                       }}
                       variant="caption"
                     >
-                      <NavLink to={"/"}>Back</NavLink>{" "}
+                      <NavLink to={"/search"}>Back</NavLink>{" "}
                     </Typography>
                     <Typography
                       variant="h6"

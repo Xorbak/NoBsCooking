@@ -64,7 +64,7 @@ export const Home = ({
 
       {showRecipe == 1 && (
         <React.Fragment>
-          {recipe && recipe.code !== 402 ? (
+          {!recipe?.code ? (
             <RandomRecipeCard
               recipe={recipe}
               fetchRecipe={fetchRecipe}
