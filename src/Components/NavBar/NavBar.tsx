@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import Grid from "@mui/material/Grid";
+import { NavSearch } from "./Components/NavSearch";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -27,35 +28,10 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
-
-export const NavBar = () => {
+interface Props {
+  setShowRecipe: React.Dispatch<React.SetStateAction<number>>;
+}
+export const NavBar = ({ setShowRecipe }: Props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="relative">
@@ -97,21 +73,12 @@ export const NavBar = () => {
             </NavLink>
           </Grid>
           <Search
-            onClick={() => {
-              alert("feature comming soon");
-            }}
             sx={{
               position: { xs: "sticky", md: "absolute" },
               right: "30px",
             }}
           >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
+            <NavSearch setShowRecipe={setShowRecipe} />
           </Search>
         </Toolbar>
       </AppBar>

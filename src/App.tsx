@@ -87,7 +87,7 @@ function App() {
 
   return (
     <ThemeProvider theme={lightMode}>
-      <NavBar />
+      <NavBar setShowRecipe={setShowRecipe} />
       <Grid
         sx={Styles.App}
         justifyContent={"center"}
