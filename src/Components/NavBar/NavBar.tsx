@@ -74,7 +74,7 @@ export const NavBar = ({ setShowRecipe }: Props) => {
           </Grid>
           <Search
             sx={{
-              position: { xs: "sticky", md: "absolute" },
+              position: { xs: "sticky", sm: "absolute" },
               right: "30px",
             }}
           >
